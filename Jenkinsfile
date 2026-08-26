@@ -12,7 +12,11 @@ pipeline {
         stage('Application Test') {
             steps {
                 sh '''
-                    python3 -m py_compile app/app.py
+                    docker run --rm \
+                      -v "$WORKSPACE/app:/app" \
+                      -w /app \
+                      python:3.12-slim \
+                      python -m py_compile app.py
                 '''
             }
         }
